@@ -22,4 +22,3 @@ Variable            | Default                        | Description
 ```
 docker build -t synology-probe . --no-cache
 ```
-# synology-probe
