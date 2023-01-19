@@ -14,6 +14,6 @@ async def check_service(
 
     state = await snmpquery(asset, asset_config, check_config, QUERIES)
     for item in state.get('service', []):
-        item['name'] = item.pop('ID')
+        item['name'] = item.pop('Name')
         item.pop('InfoIndex')
     return state
