@@ -13,4 +13,7 @@ async def check_disk(
         check_config: dict) -> dict:
 
     state = await snmpquery(asset, asset_config, check_config, QUERIES)
+    for item in state.get('disk', []):
+        item['name'] = item.pop('ID')
+        item.pop('Index')
     return state
