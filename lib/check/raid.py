@@ -6,13 +6,6 @@ QUERIES = (
     MIB_INDEX['SYNOLOGY-RAID-MIB']['raidEntry'],
 )
 
-# we need to patch the mib because and IMPORT is missing
-for oid in (
-    MIB_INDEX['SYNOLOGY-RAID-MIB']['raidFreeSize'],
-    MIB_INDEX['SYNOLOGY-RAID-MIB']['raidTotalSize']
-):
-    MIB_INDEX[oid]['syntax']['tp'] = 'INTEGER'
-
 
 async def check_raid(
         asset: Asset,
