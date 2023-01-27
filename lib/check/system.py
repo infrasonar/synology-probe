@@ -1,6 +1,6 @@
 from asyncsnmplib.mib.mib_index import MIB_INDEX
 from libprobe.asset import Asset
-from ..snmpquery import snmpquery
+from ..utils import get_data
 
 QUERIES = (
     MIB_INDEX['SYNOLOGY-SYSTEM-MIB']['synoSystem'],
@@ -14,5 +14,5 @@ async def check_system(
         asset_config: dict,
         check_config: dict) -> dict:
 
-    state = await snmpquery(asset, asset_config, check_config, QUERIES)
+    state = await get_data(asset, asset_config, check_config, QUERIES)
     return state
