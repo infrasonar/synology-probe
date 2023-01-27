@@ -6,6 +6,14 @@ QUERIES = (
     MIB_INDEX['SYNOLOGY-DISK-MIB']['diskEntry'],
 )
 
+DISK_STATUS = {
+    1: 'Normal',
+    2: 'Initialized',
+    3: 'NotInitialized',
+    4: 'SystemPartitionFailed',
+    5: 'Crashed',
+}
+
 
 async def check_disk(
         asset: Asset,
@@ -15,5 +23,6 @@ async def check_disk(
     state = await get_data(asset, asset_config, check_config, QUERIES)
     for item in state.get('diskEntry', []):
         item['name'] = item.pop('diskID')
+        item['diskStatus'] = DISK_STATUS.get(item.get('diskStatus'))
         item.pop('diskIndex')
     return state
