@@ -37,7 +37,7 @@ async def check_system(
         raise CheckException('incomplete data')
 
     return {
-        'system': {
+        'system': [{
             'name': 'system',
             'systemStatus': STATUS.get(system.get('systemStatus')),
             'temperature': system.get('temperature'),
@@ -49,5 +49,5 @@ async def check_system(
             'serialNumber': dsm_info.get('serialNumber'),
             'version': dsm_info.get('version'),
             'upgradeAvailable': UPGRADE.get(dsm_info.get('upgradeAvailable')),
-        }
+        }]
     }
