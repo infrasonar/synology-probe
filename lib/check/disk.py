@@ -14,6 +14,13 @@ DISK_STATUS = {
     5: 'Crashed',
 }
 
+DISK_HEALTH_STATUS = {
+    1: 'Normal',
+    2: 'Warning',
+    3: 'Critical',
+    4: 'Failing',
+}
+
 
 async def check_disk(
         asset: Asset,
@@ -22,7 +29,9 @@ async def check_disk(
 
     state = await get_data(asset, asset_config, check_config, QUERIES)
     for item in state.get('diskEntry', []):
-        item['name'] = item.pop('diskID')
+        item['name'] = item.pop('diskName')
         item['diskStatus'] = DISK_STATUS.get(item.get('diskStatus'))
+        item['diskHealthStatus'] = DISK_HEALTH_STATUS.get(
+            item.get('diskHealthStatus'))
         item.pop('diskIndex')
     return state
