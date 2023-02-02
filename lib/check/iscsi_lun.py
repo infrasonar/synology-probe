@@ -21,5 +21,5 @@ async def check_iscsi_lun(
 
     for item in iscsi_lun:
         item['name'] = item.pop('iSCSILUNName')
-        item.pop('iSCSILUNIndex')
+        item.pop('iSCSILUNIndex', None)
     return state
