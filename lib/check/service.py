@@ -15,5 +15,5 @@ async def check_service(
     state = await get_data(asset, asset_config, check_config, QUERIES)
     for item in state.get('serviceEntry', []):
         item['name'] = item.pop('serviceName')
-        item.pop('serviceInfoIndex')
+        item.pop('serviceInfoIndex', None)
     return state

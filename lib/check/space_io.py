@@ -15,5 +15,5 @@ async def check_space_io(
     state = await get_data(asset, asset_config, check_config, QUERIES)
     for item in state.get('spaceIOEntry', []):
         item['name'] = item.pop('spaceIODevice')
-        item.pop('spaceIOIndex')
+        item.pop('spaceIOIndex', None)
     return state

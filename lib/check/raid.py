@@ -40,5 +40,5 @@ async def check_raid(
     for item in state.get('raidEntry', []):
         item['name'] = item.pop('raidName')
         item['raidStatus'] = RAID_STATUS.get(item.get('raidStatus'))
-        item.pop('raidIndex')
+        item.pop('raidIndex', None)
     return state

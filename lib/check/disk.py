@@ -29,9 +29,9 @@ async def check_disk(
 
     state = await get_data(asset, asset_config, check_config, QUERIES)
     for item in state.get('diskEntry', []):
-        item['name'] = item.pop('diskName')
+        item['name'] = item.pop('diskID')
         item['diskStatus'] = DISK_STATUS.get(item.get('diskStatus'))
         item['diskHealthStatus'] = DISK_HEALTH_STATUS.get(
             item.get('diskHealthStatus'))
-        item.pop('diskIndex')
+        item.pop('diskIndex', None)
     return state

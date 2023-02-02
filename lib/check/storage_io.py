@@ -15,5 +15,5 @@ async def check_storage_io(
     state = await get_data(asset, asset_config, check_config, QUERIES)
     for item in state.get('storageIOEntry', []):
         item['name'] = item.pop('storageIODevice')
-        item.pop('storageIOIndex')
+        item.pop('storageIOIndex', None)
     return state
