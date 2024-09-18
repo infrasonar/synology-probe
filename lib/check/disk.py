@@ -1,12 +1,14 @@
 from asyncsnmplib.mib.mib_index import MIB_INDEX
 from libprobe.asset import Asset
-from ..utils import get_data
+from ..snmpclient import get_snmp_client
+from ..snmpquery import snmpquery
 
 QUERIES = (
     MIB_INDEX['SYNOLOGY-DISK-MIB']['diskEntry'],
 )
 
 DISK_STATUS = {
+    None: None,
     1: 'Normal',
     2: 'Initialized',
     3: 'NotInitialized',
@@ -15,6 +17,7 @@ DISK_STATUS = {
 }
 
 DISK_HEALTH_STATUS = {
+    None: None,
     1: 'Normal',
     2: 'Warning',
     3: 'Critical',
@@ -27,7 +30,8 @@ async def check_disk(
         asset_config: dict,
         check_config: dict) -> dict:
 
-    state = await get_data(asset, asset_config, check_config, QUERIES)
+    snmp = get_snmp_client(asset, asset_config, check_config)
+    state = await snmpquery(snmp, QUERIES)
     for item in state.get('diskEntry', []):
         item['name'] = item.pop('diskID')
         item['diskStatus'] = DISK_STATUS.get(item.get('diskStatus'))

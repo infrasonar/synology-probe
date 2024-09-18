@@ -1,7 +1,8 @@
 from asyncsnmplib.mib.mib_index import MIB_INDEX
 from libprobe.asset import Asset
 from libprobe.exceptions import IgnoreCheckException
-from ..utils import get_data
+from ..snmpclient import get_snmp_client
+from ..snmpquery import snmpquery
 
 QUERIES = (
     MIB_INDEX['SYNOLOGY-ISCSILUN-MIB']['iSCSILUNEntry'],
@@ -13,7 +14,8 @@ async def check_iscsi_lun(
         asset_config: dict,
         check_config: dict) -> dict:
 
-    state = await get_data(asset, asset_config, check_config, QUERIES)
+    snmp = get_snmp_client(asset, asset_config, check_config)
+    state = await snmpquery(snmp, QUERIES)
 
     iscsi_lun = state.get('iSCSILUNEntry')
     if not iscsi_lun:
