@@ -4,7 +4,7 @@ from ..snmpclient import get_snmp_client
 from ..snmpquery import snmpquery
 
 QUERIES = (
-    MIB_INDEX['SYNOLOGY-SERVICES-MIB']['serviceEntry'],
+    (MIB_INDEX['SYNOLOGY-SERVICES-MIB']['serviceEntry'], True),
 )
 
 

@@ -5,9 +5,9 @@ from ..snmpclient import get_snmp_client
 from ..snmpquery import snmpquery
 
 QUERIES = (
-    MIB_INDEX['SYNOLOGY-SYSTEM-MIB']['synoSystem'],
-    MIB_INDEX['SYNOLOGY-SYSTEM-MIB']['dsmInfo'],
-    MIB_INDEX['SYNOLOGY-SYSTEM-MIB']['fan'],
+    (MIB_INDEX['SYNOLOGY-SYSTEM-MIB']['synoSystem'], False),
+    (MIB_INDEX['SYNOLOGY-SYSTEM-MIB']['dsmInfo'], False),
+    (MIB_INDEX['SYNOLOGY-SYSTEM-MIB']['fan'], False),
 )
 
 STATUS = {

@@ -4,7 +4,7 @@ from ..snmpclient import get_snmp_client
 from ..snmpquery import snmpquery
 
 QUERIES = (
-    MIB_INDEX['SYNOLOGY-RAID-MIB']['raidEntry'],
+    (MIB_INDEX['SYNOLOGY-RAID-MIB']['raidEntry'], True),
 )
 
 RAID_STATUS = {
