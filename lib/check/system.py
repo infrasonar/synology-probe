@@ -1,7 +1,8 @@
 from asyncsnmplib.mib.mib_index import MIB_INDEX
 from libprobe.asset import Asset
 from libprobe.exceptions import CheckException
-from ..utils import get_data
+from ..snmpclient import get_snmp_client
+from ..snmpquery import snmpquery
 
 QUERIES = (
     MIB_INDEX['SYNOLOGY-SYSTEM-MIB']['synoSystem'],
@@ -10,11 +11,13 @@ QUERIES = (
 )
 
 STATUS = {
+    None: None,
     1: 'Normal',
     2: 'Failed',
 }
 
 UPGRADE = {
+    None: None,
     1: 'Available',
     2: 'Unavailable',
     3: 'Connecting',
@@ -28,7 +31,8 @@ async def check_system(
         asset_config: dict,
         check_config: dict) -> dict:
 
-    state = await get_data(asset, asset_config, check_config, QUERIES)
+    snmp = get_snmp_client(asset, asset_config, check_config)
+    state = await snmpquery(snmp, QUERIES)
     try:
         system = state['synoSystem'][0]
         fan = state['fan'][0]

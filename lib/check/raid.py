@@ -1,12 +1,14 @@
 from asyncsnmplib.mib.mib_index import MIB_INDEX
 from libprobe.asset import Asset
-from ..utils import get_data
+from ..snmpclient import get_snmp_client
+from ..snmpquery import snmpquery
 
 QUERIES = (
     MIB_INDEX['SYNOLOGY-RAID-MIB']['raidEntry'],
 )
 
 RAID_STATUS = {
+    None: None,
     1: 'Normal',
     2: 'Repairing',
     3: 'Migrating',
@@ -36,7 +38,8 @@ async def check_raid(
         asset_config: dict,
         check_config: dict) -> dict:
 
-    state = await get_data(asset, asset_config, check_config, QUERIES)
+    snmp = get_snmp_client(asset, asset_config, check_config)
+    state = await snmpquery(snmp, QUERIES)
     for item in state.get('raidEntry', []):
         item['name'] = item.pop('raidName')
         item['raidStatus'] = RAID_STATUS.get(item.get('raidStatus'))
