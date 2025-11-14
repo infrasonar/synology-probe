@@ -1,28 +1,28 @@
 from libprobe.probe import Probe
-from lib.check.disk import check_disk
-from lib.check.disk_smart import check_disk_smart
-from lib.check.ebox import check_ebox
-from lib.check.iscsi_lun import check_iscsi_lun
-from lib.check.raid import check_raid
-from lib.check.service import check_service
-from lib.check.space_io import check_space_io
-from lib.check.storage_io import check_storage_io
-from lib.check.system import check_system
+from lib.check.disk import CheckDisk
+from lib.check.disk_smart import CheckDiskSMART
+from lib.check.ebox import CheckEbox
+from lib.check.iscsi_lun import CheckISCSILUN
+from lib.check.raid import CheckRaid
+from lib.check.service import CheckService
+from lib.check.space_io import CheckSpaceIO
+from lib.check.storage_io import CheckStorageIO
+from lib.check.system import CheckSystem
 from lib.version import __version__ as version
 
 
 if __name__ == '__main__':
-    checks = {
-        'disk': check_disk,
-        'diskSMART': check_disk_smart,
-        'ebox': check_ebox,
-        'iSCSILUN': check_iscsi_lun,
-        'raid': check_raid,
-        'service': check_service,
-        'spaceIO': check_space_io,
-        'storageIO': check_storage_io,
-        'system': check_system,
-    }
+    checks = (
+        CheckDisk,
+        CheckDiskSMART,
+        CheckEbox,
+        CheckISCSILUN,
+        CheckRaid,
+        CheckService,
+        CheckSpaceIO,
+        CheckStorageIO,
+        CheckSystem,
+    )
 
     probe = Probe("synology", version, checks)
 
