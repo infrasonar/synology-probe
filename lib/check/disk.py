@@ -28,6 +28,7 @@ DISK_HEALTH_STATUS = {
 
 class CheckDisk(Check):
     key = 'disk'
+    unchanged_eol = 0
 
     @staticmethod
     async def run(asset: Asset, local_config: dict, config: dict) -> dict:
