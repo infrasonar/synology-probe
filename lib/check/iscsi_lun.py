@@ -1,5 +1,6 @@
 from asyncsnmplib.mib.mib_index import MIB_INDEX
 from libprobe.asset import Asset
+from libprobe.check import Check
 from libprobe.exceptions import IgnoreCheckException
 from ..snmpclient import get_snmp_client
 from ..snmpquery import snmpquery
@@ -9,19 +10,21 @@ QUERIES = (
 )
 
 
-async def check_iscsi_lun(
-        asset: Asset,
-        asset_config: dict,
-        check_config: dict) -> dict:
+class CheckISCSILUN(Check):
+    key = 'iSCSILUN'
+    unchanged_eol = 0
 
-    snmp = get_snmp_client(asset, asset_config, check_config)
-    state = await snmpquery(snmp, QUERIES)
+    @staticmethod
+    async def run(asset: Asset, local_config: dict, config: dict) -> dict:
 
-    iscsi_lun = state.get('iSCSILUNEntry')
-    if not iscsi_lun:
-        raise IgnoreCheckException
+        snmp = get_snmp_client(asset, local_config, config)
+        state = await snmpquery(snmp, QUERIES)
 
-    for item in iscsi_lun:
-        item['name'] = item.pop('iSCSILUNName')
-        item.pop('iSCSILUNIndex', None)
-    return state
+        iscsi_lun = state.get('iSCSILUNEntry')
+        if not iscsi_lun:
+            raise IgnoreCheckException
+
+        for item in iscsi_lun:
+            item['name'] = item.pop('iSCSILUNName')
+            item.pop('iSCSILUNIndex', None)
+        return state
